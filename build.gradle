@@ -16,9 +16,19 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url 'https://maven.aliyun.com/repository/public'
+        }
+
+        maven {
+            credentials {
+                username 'tP0WOh'
+                password 'xHY66opAsM'
+            }
+            url 'https://repo.rdc.aliyun.com/repository/105224-release-YGLw8N/'
+        }
         google()
         jcenter()
-        
     }
 }
 

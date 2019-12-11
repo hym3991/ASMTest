@@ -1,0 +1,29 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+dependencies {
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+
+    implementation 'org.ow2.asm:asm:7.1'
+    implementation 'org.ow2.asm:asm-util:7.1'
+    implementation 'org.ow2.asm:asm-commons:7.1'
+    compile 'com.android.tools.build:gradle:3.5.0'
+
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "https://repo.rdc.aliyun.com/repository/105224-release-YGLw8N/") {
+                authentication(userName: "tP0WOh", password: "xHY66opAsM")
+            }
+            pom.version = '0.0.6'
+            pom.groupId = 'com.neo.plugin'
+            pom.artifactId = 'asm'
+        }
+    }
+}
+

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'com.neo.asm.plugins'
 
 android {
     compileSdkVersion 29
@@ -30,4 +31,6 @@ dependencies {
     implementation 'org.ow2.asm:asm:7.1'
     implementation 'org.ow2.asm:asm-util:7.1'
     implementation 'org.ow2.asm:asm-commons:7.1'
+
+    implementation 'com.neo.plugin:asm:0.0.5'
 }
