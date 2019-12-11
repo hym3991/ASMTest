@@ -7,10 +7,11 @@ import org.objectweb.asm.ClassWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 
 /**
- *
+ * 用ASM怎么改
+ * 怎么构造需要的类
+ * 怎么获取结果
  */
 public class AsmRun
 {
@@ -21,25 +22,33 @@ public class AsmRun
 	
 	public static void redefinePersonClass(){
 		
+		/**
+		 * 上面看了回调方法的调用流程
+		 * 那我们就尝试对类进行修改
+		 * 我们知道，如果我们想对方法进行修改，那么我们需要在visitMethod方法中对方法名name进行筛选就可以类
+		 * 下面尝试下，通过asm对方法进行修改，打印方法执行耗时
+		 *
+		 */
+		
 		String className = AsmTest.class.getName();
 		System.out.println( "修改类名:" + className );
 		
 		try
 		{
-			//如果是通过gradle插件的形式,可以使用Transform获取路径
 			InputStream inputStream = new FileInputStream( "/Users/hongyaming/study/ASMTest/app/src/main/java/com/neo/asmtest/V1_0/AsmTest.class" );
 			
 			//读取.class文件
 			ClassReader reader = new ClassReader( inputStream );
 			ClassWriter writer = new ClassWriter( reader, ClassWriter.COMPUTE_MAXS);
+			//主要类ChangeVisitor
 			ClassVisitor visitor = new ChangeVisitor( writer );
 			reader.accept( visitor,ClassReader.EXPAND_FRAMES );
 			
 			//调用查看是否修改
-			Class classz = new MyClassLoader().defineClass( className,writer.toByteArray() );
-			Object pre = classz.newInstance();
-			Method method = classz.getDeclaredMethod( "test",null );
-			method.invoke( pre,null );
+//			Class classz = new MyClassLoader().defineClass( className,writer.toByteArray() );
+//			Object pre = classz.newInstance();
+//			Method method = classz.getDeclaredMethod( "test",null );
+//			method.invoke( pre,null );
 			
 			//获取结果 输出到新到文件查看
 			byte[] code = writer.toByteArray();
@@ -49,16 +58,6 @@ public class AsmRun
 			
 		}catch( Exception e ){
 			e.printStackTrace();
-		}
-	}
-	
-	static public class MyClassLoader extends ClassLoader {
-		public MyClassLoader() {
-			super(null);
-		}
-		
-		public final Class<?> defineClass(String name, byte[] b) {
-			return super.defineClass(name, b, 0, b.length);
 		}
 	}
 }

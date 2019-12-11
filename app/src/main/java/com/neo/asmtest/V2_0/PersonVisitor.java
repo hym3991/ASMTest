@@ -24,6 +24,8 @@ public class PersonVisitor extends ClassVisitor
 			String[] exceptions )
 	{
 		if( name.equals( "<init>" ) ){
+			//修改类中属性的字节码
+			//添加age属性
 			visitField( Opcodes.ACC_PUBLIC,"age", Type.getDescriptor(int.class),null,null );
 		}
 		return super.visitMethod( access , name , descriptor , signature , exceptions );
